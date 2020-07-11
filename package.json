@@ -1,0 +1,27 @@
+{
+  "name": "Telegram-Auction-Offers",
+  "version": "1.0.0",
+  "description": "Polish auction website scanning Telegram Bot",
+  "main": "index.js",
+  "dependencies": {
+    "telegraf": "^3.38.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.22",
+    "typescript": "^3.9.6"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kkrawczykpl/Telegram-Auction-Offers.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kkrawczykpl/Telegram-Auction-Offers/issues"
+  },
+  "homepage": "https://github.com/kkrawczykpl/Telegram-Auction-Offers#readme"
+}
