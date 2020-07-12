@@ -2,12 +2,18 @@ import { Telegraf, Markup, Extra }  from 'telegraf';
 import { config } from './config';
 import { TelegrafContext } from 'telegraf/typings/context';
 import { ServiceResponse } from './interfaces/service.response';
-import { getUrlFromMessage, getServiceFromUrl, isDatabaseFile, saveTaskToDatabase } from './functions';
+import { getUrlFromMessage, getServiceFromUrl, isDatabaseFile, saveTaskToDatabase, runCronJob } from './functions';
 import { Task } from './interfaces/task';
 
 
 // Check for database file
-isDatabaseFile();
+isDatabaseFile((err) => {
+    if (err) {
+        console.log("There was an error while trying to open the database file", err);
+    }
+    // Check for database file
+    runCronJob(config.check_time);
+});
 
 // Creates an instance of Telegraf 
 const bot: Telegraf<TelegrafContext> = new Telegraf(config.BOT_TOKEN);
@@ -39,16 +45,18 @@ bot.command('dodaj', (ctx: TelegrafContext) => {
         const service: ServiceResponse = getServiceFromUrl(url);
 
         // URL and service are correct
-        if (service.success) {
+        if (service.success && ctx.from) {
             ctx.reply(`Twój link wygląda na poprawny. Wybrany serwis: ${service.name}`);
-            const task: Task = { chat_id: ctx.from!.id, service: service.name || "SERVICE_NULL", url: url};
+            const task: Task = { chat_id: ctx.from.id, service: service.name || "SERVICE_NULL", url: url, auctions: []};
+
             saveTaskToDatabase(task, (err) => {
                 if ( !err ) {
                     ctx.reply(`Zapisałem!\nSerwis: ${task.service}\nLink: ${task.url}`);
                 }else{
-                    ctx.reply('Nie mogłem zapisać, wystąpił błąd. Spróbuj ponownie.');
+                    ctx.reply(`Nie mogłem zapisać, wystąpił błąd. Spróbuj ponownie. Błąd: ${err}`);
                 }
-            })
+
+            });
         }
         else {
             ctx.reply(service.message || "Wystąpił błąd. Spróbuj ponownie.");
@@ -62,4 +70,4 @@ bot.command('test', (ctx: TelegrafContext) => {
 });
 
 // Launch bot
-bot.launch()
+bot.launch();

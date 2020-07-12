@@ -4,9 +4,14 @@
   "description": "Polish auction website scanning Telegram Bot",
   "main": "index.js",
   "dependencies": {
+    "@types/cron": "^1.7.2",
+    "axios": "^0.19.2",
+    "cheerio": "^1.0.0-rc.3",
+    "cron": "^1.8.2",
     "telegraf": "^3.38.0"
   },
   "devDependencies": {
+    "@types/cheerio": "^0.22.21",
     "@types/node": "^14.0.22",
     "typescript": "^3.9.6"
   },
