@@ -3,3 +3,4 @@ lib/config.js
 lib/database.json 
 node_modules/
 lib/node_modules/
+src/todo.todo

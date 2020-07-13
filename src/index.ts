@@ -12,7 +12,7 @@ isDatabaseFile((err) => {
         console.log("There was an error while trying to open the database file", err);
     }
     // Check for database file
-    runCronJob(config.check_time);
+    runCronJob(config.check_time, bot);
 });
 
 // Creates an instance of Telegraf 
@@ -64,6 +64,8 @@ bot.command('dodaj', (ctx: TelegrafContext) => {
 
     }
 });
+
+// bot.telegram.sendMessage()
 
 bot.command('test', (ctx: TelegrafContext) => {
     // nothing right now

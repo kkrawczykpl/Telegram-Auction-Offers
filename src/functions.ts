@@ -4,7 +4,9 @@ import { Task } from './interfaces/task';
 import { CronJob } from 'cron';
 import axios, { AxiosResponse } from 'axios';
 import * as cheerio from 'cheerio';
-import { url } from 'inspector';
+import Telegraf from 'telegraf';
+import { TelegrafContext } from 'telegraf/typings/context';
+
 
 /**
  * Gets URL from message
@@ -72,6 +74,33 @@ async function saveTaskToDatabase(task: Task, callback: { (err: NodeJS.ErrnoExce
         fs.writeFile('./database.json', database, 'utf-8', (err) => {
             if ( err ) { console.log('There was an error while trying to save database file', err); callback(err); return }
             callback(null);
+        });
+    });
+}
+
+function compareTasks(id:number, tasks: Task, urls: string[], bot: Telegraf<TelegrafContext>) {
+    let news = urls.filter( (n) => { return !(new Set(tasks.auctions)).has(n) } );
+    console.log(news);
+    for (let newone of news) {
+        bot.telegram.sendMessage(tasks.chat_id, `Psss, nowa oferta na ${tasks.service}!\nLink: ${newone}`);
+        tasks.auctions.unshift(newone);
+    }
+    updateTaskAuctions(id, tasks.auctions);
+}
+
+
+async function updateTaskAuctions(index: number, updatedAuctions: string[]) {
+
+    fs.readFile('./database.json', 'utf-8', async (err, data) => {
+        if ( err ) { console.log('There was an error while trying to read database file', err); return }
+
+        let database = JSON.parse(data);
+        database.tasks[index].auctions = updatedAuctions;
+        database = JSON.stringify(database);
+
+        // Save database.json file
+        fs.writeFile('./database.json', database, 'utf-8', (err) => {
+            if ( err ) { console.log('There was an error while trying to save database file', err); return; }
         });
     });
 }
@@ -161,12 +190,16 @@ async function OLXParser(response: AxiosResponse): Promise<string[]> {
  * Runs Cron Job
  * @param time (number)
  */
-function runCronJob(time: number) {
-    // const job = new CronJob(`${time} * * * * *`, () => {
-    //     console.log("---------------------");
-    //     console.log("Running Cron Job");
-    // });
-    // job.start();
+function runCronJob(time: number, bot: Telegraf<TelegrafContext>) {
+    const job = new CronJob(`${time} * * * * *`, async () => {
+        console.log("---------------------");
+        let tasks = await getAllTasks();
+        for(let task in tasks) {
+            let urls = await getOffersFromService(tasks[task].service, tasks[task].url);
+            compareTasks( parseInt(task), tasks[task], urls, bot);
+        }
+    });
+    job.start();
 }
 
 /**
