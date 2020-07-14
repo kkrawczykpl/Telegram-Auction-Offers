@@ -4,5 +4,10 @@ export const strings = {
     empty_url: "Wprowadziłeś pusty link. Poprawny format:\n/dodaj <url (olx | otomoto | allegro)>.\nAby uzyskać więcej informacji wpisz /pomoc",
     incorrect_url: "Nie znaleziono odpowiedniego linku. Obsługiwane formaty: (www.)(m.)olx.pl, (www.)otomoto.pl, (www.)allegro.pl.",
     mulitple_url: "Link jest w niepoprawnej formie. Wykryto więcej niż jeden link, spróbuj ponownie",
-    correct_url: "Twój link wygląda na poprawny. Wybrany serwis:"
+    correct_url: "Twój link wygląda na poprawny. Wybrany serwis:",
+    delete: "***Usunięto!***",
+    error: "Wystąpił błąd. Spróbuj ponownie.",
+    saved: "***Twoje zapisane linki***",
+    delete_btn: "🗑 Usuń",
+    new_offer: "Psss, nowa oferta na ***((service))***!\nLink: ((link))"
 };

@@ -25,7 +25,7 @@ async function sendAdd(ctx: TelegrafContext) {
     const service: ServiceResponse = getServiceFromUrl(url);
 
     if (!service.successResult || !service.nameResult) {
-        ctx.reply(service.messageResult || "Wystąpił błąd. Spróbuj ponownie.");
+        ctx.reply(service.messageResult || strings.error);
         return;
     }
 
