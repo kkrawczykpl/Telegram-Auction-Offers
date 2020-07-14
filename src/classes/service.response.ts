@@ -3,6 +3,10 @@ class ServiceResponse {
     private message: string | undefined;
     private name: string | undefined;
 
+    constructor() {
+
+    }
+
     setSuccess(success: boolean) {
         this.success = success;
         return this;
@@ -18,15 +22,15 @@ class ServiceResponse {
         return this;
     }
 
-    get successResult() {
+    get successResult(): boolean | undefined {
         return this.success;
     }
 
-    get messageResult() {
+    get messageResult(): string | undefined {
         return this.message;
     }
 
-    get nameResult() {
+    get nameResult(): string | undefined {
         return this.name;
     }
 }

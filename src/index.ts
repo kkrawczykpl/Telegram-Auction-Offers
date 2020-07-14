@@ -3,9 +3,6 @@ import { setupStart } from './commands/start';
 import { bot } from './helpers/bot';
 import { setupAdd } from './commands/add';
 
-
-// Porting
-
 // Handle /start command
 setupStart(bot);
 
