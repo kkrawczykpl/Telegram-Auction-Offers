@@ -8,9 +8,9 @@ function setupSaved(bot: Telegraf<TelegrafContext>) {
 }
 
 async function sendSaved(ctx: TelegrafContext) {
-    if (!ctx.from) { return }
+    if (!ctx.from) { return; }
     let tasks = await getTasksByChatId(ctx.from.id);
-    if(!tasks) { return }
+    if(!tasks || tasks.length < 1) { ctx.reply(strings.no_links_saved); return; }
     let urls = tasks.map( (task) => task.url );
     await ctx.replyWithMarkdown(strings.saved);
     
