@@ -1,7 +1,8 @@
 import { setupHelp } from './commands/help';
 import { setupStart } from './commands/start';
-import { bot } from './helpers/bot';
 import { setupAdd } from './commands/add';
+import { bot } from './helpers/bot';
+import { setupCronJob } from './helpers/cron';
 
 // Handle /start command
 setupStart(bot);
@@ -11,6 +12,8 @@ setupHelp(bot);
 
 // Handle /dodaj command
 setupAdd(bot);
+
+setupCronJob('*/5 * * * *', bot);
 
 // Launch bot
 bot.launch();

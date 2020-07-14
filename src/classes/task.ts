@@ -1,8 +1,8 @@
 class Task {
-    private chatId: number | undefined;
-    private service: string | undefined;
-    private url: string | undefined;
-    private auctions: string[] | undefined;
+    public chatId: number | undefined;
+    public service: string | undefined;
+    public url: string | undefined;
+    public auctions: string[] | undefined;
 
     setChatId(chatId: number) {
         this.chatId = chatId;
